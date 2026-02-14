@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dla Ciebie ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    background: radial-gradient(circle, #1a001f, #000);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Arial', sans-serif;
+    color: white;
+    text-align: center;
+}
+
+#heart {
+    font-size: 120px;
+    cursor: pointer;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+#message {
+    position: absolute;
+    font-size: 80px;
+    font-weight: bold;
+    opacity: 0;
+    text-shadow: 0 0 20px #ff4da6, 0 0 40px #ff4da6;
+    transition: all 1.5s ease;
+}
+
+#hint {
+    position: absolute;
+    bottom: 50px;
+    font-size: 18px;
+    opacity: 0;
+    transition: opacity 2s ease;
+}
+
+#secret {
+    position: absolute;
+    max-width: 700px;
+    font-size: 24px;
+    line-height: 1.6;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 2s ease;
+}
+
+.show {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+}
+
+.falling-heart {
+    position: absolute;
+    color: pink;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    from { transform: translateY(-10vh); }
+    to { transform: translateY(110vh); }
+}
+</style>
+</head>
+
+<body>
+
+<div id="heart">❤️</div>
+<div id="message">Kocham Cię</div>
+<div id="hint">Kliknij jeszcze raz ❤️</div>
+
+<div id="secret">
+Bardzo dziękuję, że jesteś. <br><br>
+Że pojawiłeś się w moim życiu. <br><br>
+Ono bardzo się zmieniło dzięki Tobie. <br>
+Jest lepsze. <br>
+Jestem dzięki Tobie naprawdę szczęśliwa. <br><br>
+I już od bardzo dawna nasze „uwielbiam Cię” <br>
+znaczyło dokładnie to samo, co… <br><br>
+<b>Kocham Cię ❤️</b>
+</div>
+
+<script>
+const heart = document.getElementById("heart");
+const message = document.getElementById("message");
+const hint = document.getElementById("hint");
+const secret = document.getElementById("secret");
+
+let stage = 0;
+
+heart.addEventListener("click", () => {
+
+    if(stage === 0){
+        heart.style.display = "none";
+        message.classList.add("show");
+        createExplosion();
+        
+        setTimeout(() => {
+            hint.style.opacity = 1;
+        }, 2500);
+
+        stage = 1;
+    }
+    else if(stage === 1){
+        hint.style.display = "none";
+        message.style.display = "none";
+        secret.classList.add("show");
+        stage = 2;
+    }
+});
+
+function createExplosion() {
+    for (let i = 0; i < 60; i++) {
+        const el = document.createElement("div");
+        el.innerHTML = "❤️";
+        el.style.position = "absolute";
+        el.style.left = "50%";
+        el.style.top = "50%";
+        el.style.fontSize = "20px";
+        el.style.transition = "all 1.5s ease-out";
+        document.body.appendChild(el);
+
+        setTimeout(() => {
+            el.style.left = Math.random() * window.innerWidth + "px";
+            el.style.top = Math.random() * window.innerHeight + "px";
+            el.style.opacity = 0;
+        }, 10);
+
+        setTimeout(() => el.remove(), 1500);
+    }
+}
+
+function createFallingHearts() {
+    const heart = document.createElement("div");
+    heart.classList.add("falling-heart");
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.fontSize = Math.random() * 20 + 10 + "px";
+    heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 5000);
+}
+
+setInterval(createFallingHearts, 300);
+</script>
+
+</body>
+</html>
+
